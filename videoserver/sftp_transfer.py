@@ -7,13 +7,14 @@ def main():
     try:
         # Defines the name of the file for download / upload
         # remote_file = sys.argv[1]
-        local_file = "../videoapp/public/pug2.PNG"
-        remote_path = "/home/ubuntu/smart-helmet-integration/videoapp/public/pug2.PNG"
+        filename = "testvideo.mp4"
+        local_file = f"./{filename}"
+        remote_path = f"/home/ubuntu/smart-helmet-integration/videoserver/files/{filename}"
 
         # srv = pysftp.Connection(host="your_FTP_server", username="your_username",
         # password="your_password")
         
-        srv = pysftp.Connection(host="3.15.207.49", username="ubuntu", private_key="../aws_mag.pem")
+        srv = pysftp.Connection(host="3.15.207.49", username="ubuntu", private_key="./aws_mag.pem")
         # Download the file from the remote server
         # srv.get(remote_file)
 
