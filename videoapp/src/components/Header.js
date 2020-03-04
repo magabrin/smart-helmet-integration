@@ -6,7 +6,7 @@ function Header() {
     <div className="">
       <header className="App-header">
         <h1>Concushion</h1>
-        <img src='pug2.png' style={{width: '33%'}}></img>
+        <img src='pug2.PNG' style={{width: '33%'}}></img>
       </header>
     </div>
   );
