@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-
+var fetch = require('node-fetch');
 
 
 /* GET home page. */
@@ -32,6 +32,38 @@ router.get('/download', (req, res, next) => {
     res.sendStatus(404);
   }
   
+});
+
+router.get('/startTrip', async (req, res, next) => {
+  try {
+    console.log('got command to start trip, forwarding to pi');
+    await fetch('http://24.131.225.153:3080/start');
+    res.sendStatus(200);
+  } catch (error) {
+     console.log(error);
+     res.sendStatus(400);
+  }
+});
+
+router.get('/endTrip', async (req, res, next) => {
+  try {
+    console.log('got command to end trip, forwarding to pi');
+    await fetch('http://24.131.225.153:3080/end');
+    res.sendStatus(200);
+  } catch(error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
+
+router.post('/crash', (req, res, next) => {
+  try {
+    console.log('crash detected');
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+ 
 });
 
 module.exports = router;
