@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var fetch = require('node-fetch');
+var crashData = require('../files/crash.json');
 
+var didCrashHappen = false;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,9 +14,63 @@ router.get('/', function(req, res, next) {
 
 router.get('/list', (req, res, next) => {
   try {
-    console.log('listing video titles');
+    console.log('listing video titles');    
     let files = fs.readdirSync('./files');
     res.send(files);  
+  } catch (error) {
+    res.sendStatus(404);
+  }
+  
+});
+
+router.get('/pollforcrash', (req, res, next) => {
+  try {
+    res.send({crash: didCrashHappen});
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
+
+router.get('/resetcrash', (req, res, next) => {
+  try {
+    didCrashHappen = false;
+    res.send({didCrashHappen: false});
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
+
+router.get('/crashfrompi', (req, res, next) => {
+  try {
+    didCrashHappen = true;
+    res.send({didCrashHappen: true});
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
+
+router.post('/crash', (req, res, next) => {
+  try {
+    // crashData.push({
+    //   'name': req.body.name,
+    //   'location': req.body.location,
+    // })
+    crashData.push(req.body);
+    fs.writeFileSync('./files/crash.json', JSON.stringify(crashData));
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
+
+router.get('/crash', (req, res, next) => {
+  try {
+    console.log('listing crash data');    
+    res.send(crashData);  
   } catch (error) {
     res.sendStatus(404);
   }
