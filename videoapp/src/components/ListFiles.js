@@ -19,7 +19,13 @@ function ListFiles() {
     const fetchFiles = async () => {
         console.log('fetching files...');
         try {
-            const response = await fetch('http://13.59.245.151:3031/list');  // 'http://localhost:3031/list');
+            let url;
+            if (process.env.REACT_APP_MODE === 'local') {
+                url = 'http://localhost:3031/';
+            } else {
+                url = 'http://13.59.245.151:3031/';
+            }
+            const response = await fetch(url + 'list');  // 'http://localhost:3031/list');
             console.log(response);
 	    setFileList(await response.json());
               
@@ -53,7 +59,13 @@ function ListFiles() {
     const downloadFile = async (filename) => {
         console.log('downloading files...');
         try {
-            const response = await fetch('http://13.59.245.151:3031/download?'+ new URLSearchParams({ filename }));
+            let url2;
+            if (process.env.REACT_APP_MODE === 'local') {
+                url2 = 'http://localhost:3031/';
+            } else {
+                url2 = 'http://13.59.245.151:3031/';
+            }
+            const response = await fetch(url2 + 'download?'+ new URLSearchParams({ filename }));
             // 1. Convert the data into 'blob'
             const blob = await response.blob();        
             // 2. Create blob link to download
