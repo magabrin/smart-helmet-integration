@@ -25,7 +25,13 @@ router.get('/list', (req, res, next) => {
 
 router.get('/pollforcrash', (req, res, next) => {
   try {
-    res.send({crash: didCrashHappen});
+    
+	// res.send({crash: didCrashHappen});
+	if (didCrashHappen) {
+	  res.sendStatus(200);
+	} else {
+	  res.sendStatus(201);
+	}
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
